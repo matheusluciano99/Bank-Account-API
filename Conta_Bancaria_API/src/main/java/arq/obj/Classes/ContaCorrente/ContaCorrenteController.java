@@ -25,19 +25,8 @@ public class ContaCorrenteController {
     }
 
     @PostMapping
-    public ContaCorrente criarConta(
-            @RequestParam String agencia,
-            @RequestParam String numero,
-            @RequestParam Float saldoInicial,
-            @RequestParam Float limite,
-            @RequestParam String cpf,
-            @RequestParam String nome,
-            @RequestParam LocalDate dataNascimento,
-            @RequestParam Float salario
-    ) {
-        Cliente cliente = new Cliente(cpf, nome, dataNascimento, salario);
-        ContaCorrente conta = new ContaCorrente(agencia, numero, saldoInicial, limite, cliente);
-        return service.salvar(conta);
+    public ContaCorrente criarConta(@RequestBody ContaCorrente contaCorrente) {
+        return service.salvar(contaCorrente);
     }
 
     @PostMapping("/{numero}/saque")

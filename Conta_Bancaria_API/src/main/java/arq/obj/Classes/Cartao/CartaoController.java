@@ -1,5 +1,7 @@
 package arq.obj.Classes.Cartao;
 
+import arq.obj.Classes.Usuario.Usuario;
+import arq.obj.Classes.Usuario.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
@@ -12,6 +14,9 @@ public class CartaoController {
     @Autowired
     private CartaoService service;
 
+    @Autowired
+    private UsuarioService usuarioService;
+
     @GetMapping
     public Collection<Cartao> listarCartoes() {
         return service.listarTodos();
@@ -23,7 +28,8 @@ public class CartaoController {
     }
 
     @PostMapping
-    public Cartao criarCartao(@RequestBody Cartao cartao) {
+    public Cartao criarCartao(@RequestHeader(name = "token") String token, @RequestBody Cartao cartao) {
+        Usuario usuario = usuarioService.validarToken(token);
         return service.salvar(cartao);
     }
 
@@ -34,7 +40,8 @@ public class CartaoController {
     }
 
     @DeleteMapping("/{numeroCartao}")
-    public void deletarCartao(@PathVariable String numeroCartao) {
+    public void deletarCartao(@PathVariable String numeroCartao, @RequestHeader(name = "token") String token) {
+        Usuario usuario = usuarioService.validarToken(token);
         service.deletar(numeroCartao);
     }
 }

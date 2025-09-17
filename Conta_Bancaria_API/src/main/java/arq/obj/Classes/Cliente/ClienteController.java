@@ -27,6 +27,12 @@ public class ClienteController {
         return service.salvar(cliente);
     }
 
+    @PutMapping("/{cpf}")
+    public Cliente editarCliente(@PathVariable String cpf, @RequestBody Cliente cliente) {
+        cliente.setCpf(cpf);
+        return service.salvar(cliente);
+    }
+
     @DeleteMapping("/{cpf}")
     public void deletarCliente(@PathVariable String cpf) {
         service.deletar(cpf);

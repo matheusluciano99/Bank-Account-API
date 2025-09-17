@@ -2,6 +2,7 @@ package arq.obj.Classes.ContaCorrente;
 
 import arq.obj.Classes.Cliente.Cliente;
 import arq.obj.Classes.Movimentacao.Movimentacao;
+import arq.obj.Classes.Cartao.Cartao;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,6 +46,14 @@ public class ContaCorrenteService {
         ContaCorrente conta = buscarPorNumero(numero);
         if (conta != null) {
             return conta.listaMovimentacoes();
+        }
+        throw new RuntimeException("Conta não encontrada");
+    }
+
+    public Collection<Cartao> listarCartoes(String numero) {
+        ContaCorrente conta = buscarPorNumero(numero);
+        if (conta != null) {
+            return conta.listaCartoes();
         }
         throw new RuntimeException("Conta não encontrada");
     }

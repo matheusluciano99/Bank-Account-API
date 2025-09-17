@@ -1,6 +1,6 @@
 package arq.obj.Classes.ContaCorrente;
 
-import arq.obj.Classes.Cliente.Cliente;
+import arq.obj.Classes.Cartao.Cartao;
 import arq.obj.Classes.Movimentacao.Movimentacao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +42,10 @@ public class ContaCorrenteController {
     @GetMapping("/{numero}/movimentacoes")
     public Collection<Movimentacao> listarMovimentacoes(@PathVariable String numero) {
         return service.listarMovimentacoes(numero);
+    }
+
+    @GetMapping("/{numero}/cartoes")
+    public Collection<Cartao> listarCartoes(@PathVariable String numero) {
+        return service.listarCartoes(numero);
     }
 }

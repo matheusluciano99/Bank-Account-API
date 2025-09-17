@@ -1,4 +1,4 @@
-package Classes.Cliente;
+package arq.obj.Classes.Cliente;
 
 import java.time.LocalDate;
 

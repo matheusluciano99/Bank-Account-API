@@ -1,4 +1,4 @@
-package Classes.Cartao;
+package arq.obj.Classes.Cartao;
 
 import java.time.LocalDate;
 

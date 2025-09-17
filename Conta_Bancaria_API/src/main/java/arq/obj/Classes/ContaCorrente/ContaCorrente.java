@@ -1,8 +1,8 @@
-package Classes.ContaCorrente;
+package arq.obj.Classes.ContaCorrente;
 
-import Classes.Cartao.Cartao;
-import Classes.Cliente.Cliente;
-import Classes.Movimentacao.Movimentacao;
+import arq.obj.Classes.Cartao.Cartao;
+import arq.obj.Classes.Cliente.Cliente;
+import arq.obj.Classes.Movimentacao.Movimentacao;
 import java.util.ArrayList;
 import java.util.List;
 

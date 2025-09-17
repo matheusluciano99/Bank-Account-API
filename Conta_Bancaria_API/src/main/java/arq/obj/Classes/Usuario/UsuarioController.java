@@ -1,4 +1,4 @@
-package br.edu.insper.biblioteca.autenticacao;
+package arq.obj.Classes.Usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

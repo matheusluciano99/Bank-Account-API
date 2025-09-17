@@ -1,4 +1,4 @@
-package br.edu.insper.biblioteca.autenticacao;
+package arq.obj.Classes.Usuario;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;

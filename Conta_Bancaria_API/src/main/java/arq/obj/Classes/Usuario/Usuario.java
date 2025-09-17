@@ -1,4 +1,4 @@
-package br.edu.insper.biblioteca.autenticacao;
+package arq.obj.Classes.Usuario;
 
 public class Usuario {
 

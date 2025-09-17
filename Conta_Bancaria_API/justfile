@@ -1,2 +1,5 @@
 run:
     ./mvnw spring-boot:run
+
+compile:
+    ./mvnw compile

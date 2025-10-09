@@ -7,7 +7,6 @@ import jakarta.persistence.Id;
 public class Usuario {
 
     @Id
-    private Integer id;
     private String email;
     private String password;
 

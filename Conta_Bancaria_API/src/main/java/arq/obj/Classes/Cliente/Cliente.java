@@ -1,19 +1,16 @@
 package arq.obj.Classes.Cliente;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import java.time.LocalDate;
 
+@Entity
 public class Cliente {
+	@Id
 	private String cpf;
 	private String nome;
 	private LocalDate dataNascimento;
 	private Float salario;
-
-    public Cliente(String cpf, String nome, LocalDate dataNascimento, Float salario) {
-        this.cpf = cpf;
-        this.nome = nome;
-        this.dataNascimento = dataNascimento;
-        this.salario = salario;
-    }
 
     public String getCpf() {
         return this.cpf;

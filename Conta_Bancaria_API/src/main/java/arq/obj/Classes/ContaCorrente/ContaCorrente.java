@@ -3,27 +3,29 @@ package arq.obj.Classes.ContaCorrente;
 import arq.obj.Classes.Cartao.Cartao;
 import arq.obj.Classes.Cliente.Cliente;
 import arq.obj.Classes.Movimentacao.Movimentacao;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class ContaCorrente {
 	private String agencia;
+	@Id
 	private String numero;
 	private Float saldo;
-	private final Float limite;
-	private final List<Movimentacao> movimentacoes;
-	private final List<Cartao> cartoes;
-	private final Cliente cliente;
+	private Float limite;
 
-	public ContaCorrente(String agencia, String numero, Float saldoInicial, Float limite, Cliente cliente) {
-		this.agencia = agencia;
-		this.numero = numero;
-		this.saldo = saldoInicial;
-		this.limite = limite;
-		this.movimentacoes = new ArrayList<>();
-		this.cartoes = new ArrayList<>();
-		this.cliente = cliente;
-	}
+	@OneToMany(mappedBy = "contaCorrente" )
+	@JoinColumn(name = "conta_numero")
+	private List<Movimentacao> movimentacoes = new ArrayList<>();
+
+	@OneToMany(mappedBy = "contaCorrente" )
+	@JoinColumn(name = "conta_numero")
+	private List<Cartao> cartoes = new ArrayList<>();
+
+	@ManyToOne
+	@JoinColumn(name = "cliente_cpf")
+	private Cliente cliente;
 
     public String getAgencia() {
         return this.agencia;
@@ -82,6 +84,34 @@ public class ContaCorrente {
 
     public Cliente getCliente() {
         return this.cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public void setSaldo(Float saldo) {
+        this.saldo = saldo;
+    }
+
+    public void setLimite(Float limite) {
+        this.limite = limite;
+    }
+
+    public List<Movimentacao> getMovimentacoes() {
+        return this.movimentacoes;
+    }
+
+    public void setMovimentacoes(List<Movimentacao> movimentacoes) {
+        this.movimentacoes = movimentacoes;
+    }
+
+    public List<Cartao> getCartoes() {
+        return this.cartoes;
+    }
+
+    public void setCartoes(List<Cartao> cartoes) {
+        this.cartoes = cartoes;
     }
 
 }

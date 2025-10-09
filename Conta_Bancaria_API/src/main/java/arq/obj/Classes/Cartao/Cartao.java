@@ -1,19 +1,16 @@
 package arq.obj.Classes.Cartao;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import java.time.LocalDate;
 
+@Entity
 public class Cartao {
+	@Id
 	private String numeroCartao;
 	private String tipo;
 	private LocalDate validade;
-	private String status;
-
-    public Cartao(String numeroCartao, String tipo, LocalDate validade) {
-        this.numeroCartao = numeroCartao;
-        this.tipo = tipo;
-        this.validade = validade;
-        this.status = "ATIVO";
-    }
+	private String status = "ATIVO";
 
     public String getNumeroCartao() {
         return this.numeroCartao;

@@ -18,10 +18,7 @@ public class Cartao {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "conta_numero")
 	private ContaCorrente contaCorrente;

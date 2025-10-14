@@ -22,10 +22,6 @@ public class ContaCorrente {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	@JsonIgnore
 	@OneToMany(mappedBy = "contaCorrente")
 	private List<Movimentacao> movimentacoes = new ArrayList<>();

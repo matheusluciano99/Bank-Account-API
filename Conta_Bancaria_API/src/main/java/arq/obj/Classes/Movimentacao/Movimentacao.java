@@ -31,10 +31,6 @@ public class Movimentacao {
         return this.id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Float getValor() {
         return this.valor;
     }

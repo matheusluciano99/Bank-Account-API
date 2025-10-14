@@ -3,24 +3,35 @@ package arq.obj.Classes.ContaCorrente;
 import arq.obj.Classes.Cartao.Cartao;
 import arq.obj.Classes.Cliente.Cliente;
 import arq.obj.Classes.Movimentacao.Movimentacao;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class ContaCorrente {
-	private String agencia;
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	private String agencia;
 	private String numero;
 	private Float saldo;
 	private Float limite;
 
-	@OneToMany(mappedBy = "contaCorrente" )
-	@JoinColumn(name = "conta_numero")
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@JsonIgnore
+	@OneToMany(mappedBy = "contaCorrente")
 	private List<Movimentacao> movimentacoes = new ArrayList<>();
 
-	@OneToMany(mappedBy = "contaCorrente" )
-	@JoinColumn(name = "conta_numero")
+	@JsonIgnore
+	@OneToMany(mappedBy = "contaCorrente")
 	private List<Cartao> cartoes = new ArrayList<>();
 
 	@ManyToOne
@@ -55,7 +66,7 @@ public class ContaCorrente {
 		try {
 			if (valor != null && valor > 0 && valor <= this.saldo + this.limite) {
 				this.saldo -= valor;
-				this.movimentacoes.add(new Movimentacao(valor, "SAQUE", java.time.LocalDate.now()));
+				this.movimentacoes.add(new Movimentacao(valor, "SAQUE", java.time.LocalDate.now(), this));
 			}
 		} catch (Exception e) {
 			System.out.println("Erro ao realizar saque: " + e.getMessage());
@@ -67,7 +78,7 @@ public class ContaCorrente {
 		try {
 			if (valor == null || valor <= 0) throw new Exception("Valor inválido");
 			this.saldo += valor;
-			this.movimentacoes.add(new Movimentacao(valor, "DEPOSITO", java.time.LocalDate.now()));
+			this.movimentacoes.add(new Movimentacao(valor, "DEPOSITO", java.time.LocalDate.now(), this));
 		} catch (Exception e) {
 			System.out.println("Erro ao realizar depósito: " + e.getMessage());
 		}
@@ -88,14 +99,6 @@ public class ContaCorrente {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-
-    public void setSaldo(Float saldo) {
-        this.saldo = saldo;
-    }
-
-    public void setLimite(Float limite) {
-        this.limite = limite;
     }
 
     public List<Movimentacao> getMovimentacoes() {

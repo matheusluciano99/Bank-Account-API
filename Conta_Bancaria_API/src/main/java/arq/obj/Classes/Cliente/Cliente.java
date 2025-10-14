@@ -1,16 +1,25 @@
 package arq.obj.Classes.Cliente;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 public class Cliente {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String cpf;
 	private String nome;
 	private LocalDate dataNascimento;
 	private Float salario;
+
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
     public String getCpf() {
         return this.cpf;

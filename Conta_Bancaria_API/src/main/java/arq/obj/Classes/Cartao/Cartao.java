@@ -1,16 +1,30 @@
 package arq.obj.Classes.Cartao;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import arq.obj.Classes.ContaCorrente.ContaCorrente;
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 public class Cartao {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
 	private String numeroCartao;
 	private String tipo;
 	private LocalDate validade;
 	private String status = "ATIVO";
+
+	public Integer getId() {
+		return this.id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	@ManyToOne
+	@JoinColumn(name = "conta_numero")
+	private ContaCorrente contaCorrente;
 
     public String getNumeroCartao() {
         return this.numeroCartao;
@@ -53,5 +67,13 @@ public class Cartao {
 			return false;
 		this.status = "CANCELADO";
 		return true;
+	}
+
+	public ContaCorrente getContaCorrente() {
+		return this.contaCorrente;
+	}
+
+	public void setContaCorrente(ContaCorrente contaCorrente) {
+		this.contaCorrente = contaCorrente;
 	}
 }

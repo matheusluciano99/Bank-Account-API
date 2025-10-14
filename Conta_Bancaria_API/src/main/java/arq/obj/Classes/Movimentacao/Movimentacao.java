@@ -1,6 +1,7 @@
 package arq.obj.Classes.Movimentacao;
 
 import arq.obj.Classes.ContaCorrente.ContaCorrente;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -13,8 +14,9 @@ public class Movimentacao {
     private String tipo;
     private LocalDate data;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "conta_numero")
+    @JoinColumn(name = "conta_id")
     private ContaCorrente contaCorrente;
 
     public Movimentacao() {

@@ -1,6 +1,7 @@
 package arq.obj.Classes.Cartao;
 
 import arq.obj.Classes.ContaCorrente.ContaCorrente;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -20,7 +21,7 @@ public class Cartao {
 
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "conta_numero")
+	@JoinColumn(name = "conta_id")
 	private ContaCorrente contaCorrente;
 
     public String getNumeroCartao() {
@@ -56,6 +57,9 @@ public class Cartao {
     }
 
 	public Boolean isExpired() {
+		if (validade == null) {
+			return false;
+		}
 		return validade.isBefore(LocalDate.now());
 	}
 

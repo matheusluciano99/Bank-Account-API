@@ -1,45 +1,66 @@
 package arq.obj.Classes.ContaCorrente;
 
-import arq.obj.Classes.Cliente.Cliente;
 import arq.obj.Classes.Movimentacao.Movimentacao;
+import arq.obj.Classes.Movimentacao.MovimentacaoRepository;
 import arq.obj.Classes.Cartao.Cartao;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class ContaCorrenteService {
-    private final Map<String, ContaCorrente> contas = new HashMap<>();
 
-    public Collection<ContaCorrente> listarTodas() {
-        return contas.values();
+    @Autowired
+    private ContaCorrenteRepository repository;
+
+    @Autowired
+    private MovimentacaoRepository movimentacaoRepository;
+
+    public List<ContaCorrente> listarTodas() {
+        return repository.findAll();
     }
 
     public ContaCorrente buscarPorNumero(String numero) {
-        return contas.get(numero);
+        return repository.findByNumero(numero);
     }
 
     public ContaCorrente salvar(ContaCorrente conta) {
-        contas.put(conta.getNumero(), conta);
-        return conta;
+        return repository.save(conta);
     }
 
     public Float saque(String numero, Float valor) {
         ContaCorrente conta = buscarPorNumero(numero);
-        if (conta != null) {
-            return conta.saque(valor);
+        if (conta == null) {
+            throw new RuntimeException("Conta não encontrada");
         }
-        throw new RuntimeException("Conta não encontrada");
+
+        Float saldo = conta.saque(valor);
+
+        if (!conta.getMovimentacoes().isEmpty()) {
+            Movimentacao ultima = conta.getMovimentacoes().get(conta.getMovimentacoes().size() - 1);
+            movimentacaoRepository.save(ultima);
+        }
+
+        repository.save(conta);
+        return saldo;
     }
 
     public Float deposito(String numero, Float valor) {
         ContaCorrente conta = buscarPorNumero(numero);
-        if (conta != null) {
-            return conta.deposito(valor);
+        if (conta == null) {
+            throw new RuntimeException("Conta não encontrada");
         }
-        throw new RuntimeException("Conta não encontrada");
+
+        Float saldo = conta.deposito(valor);
+
+        if (!conta.getMovimentacoes().isEmpty()) {
+            Movimentacao ultima = conta.getMovimentacoes().get(conta.getMovimentacoes().size() - 1);
+            movimentacaoRepository.save(ultima);
+        }
+
+        repository.save(conta);
+        return saldo;
     }
 
     public Collection<Movimentacao> listarMovimentacoes(String numero) {

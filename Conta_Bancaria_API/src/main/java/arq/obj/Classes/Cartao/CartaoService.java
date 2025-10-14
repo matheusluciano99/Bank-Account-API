@@ -1,28 +1,31 @@
 package arq.obj.Classes.Cartao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Service
 public class CartaoService {
-    private final Map<String, Cartao> cartoes = new HashMap<>();
 
-    public Collection<Cartao> listarTodos() {
-        return cartoes.values();
+    @Autowired
+    private CartaoRepository repository;
+
+    public List<Cartao> listarTodos() {
+        return repository.findAll();
     }
 
     public Cartao buscarPorNumero(String numeroCartao) {
-        return cartoes.get(numeroCartao);
+        return repository.findByNumeroCartao(numeroCartao);
     }
 
     public Cartao salvar(Cartao cartao) {
-        cartoes.put(cartao.getNumeroCartao(), cartao);
-        return cartao;
+        return repository.save(cartao);
     }
 
     public void deletar(String numeroCartao) {
-        cartoes.remove(numeroCartao);
+        Cartao cartao = buscarPorNumero(numeroCartao);
+        if (cartao != null) {
+            repository.deleteById(cartao.getId());
+        }
     }
 }

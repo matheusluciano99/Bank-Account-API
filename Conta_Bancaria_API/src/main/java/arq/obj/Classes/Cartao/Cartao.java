@@ -10,7 +10,11 @@ public class Cartao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column(unique = true, nullable = false)
 	private String numeroCartao;
+	
+	@Column(nullable = false)
 	private String tipo;
 	private LocalDate validade;
 	private String status = "ATIVO";

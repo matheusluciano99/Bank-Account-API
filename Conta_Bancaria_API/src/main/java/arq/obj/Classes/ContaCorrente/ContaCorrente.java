@@ -13,8 +13,12 @@ public class ContaCorrente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String agencia;
+	
+	@Column(unique = true, nullable = false)
 	private String numero;
+	
 	private Float saldo;
 	private Float limite;
 
@@ -30,8 +34,9 @@ public class ContaCorrente {
 	@OneToMany(mappedBy = "contaCorrente")
 	private List<Cartao> cartoes = new ArrayList<>();
 
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "cliente_cpf")
+	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
 
     public String getAgencia() {

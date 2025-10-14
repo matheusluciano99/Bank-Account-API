@@ -8,7 +8,11 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column(unique = true, nullable = false)
 	private String cpf;
+	
+	@Column(nullable = false)
 	private String nome;
 	private LocalDate dataNascimento;
 	private Float salario;

@@ -10,8 +10,14 @@ public class Movimentacao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
+    @Column(nullable = false)
     private Float valor;
+    
+    @Column(nullable = false)
     private String tipo;
+    
+    @Column(nullable = false)
     private LocalDate data;
 
     @JsonIgnore

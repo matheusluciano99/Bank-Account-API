@@ -1,14 +1,31 @@
 # Bank Account API
 
-API REST simples para gestão de clientes, contas correntes, cartões e movimentações, construída com Spring Boot. Endpoints seguem padrão Controller/Service e usam autenticação por token em cabeçalho `token` para operações de escrita.
+API REST para gestão de clientes, contas correntes, cartões e movimentações, construída com Spring Boot. Endpoints seguem padrão Controller/Service e usam autenticação por token em cabeçalho `token` para operações de escrita.
+
+## 🚀 Deploy
+
+A aplicação está disponível em produção:
+
+**URL:** https://conta-bancaria-api.onrender.com/
+
+**Swagger UI:** https://conta-bancaria-api.onrender.com/swagger-ui/index.html
+
+**Docker Hub:** https://hub.docker.com/r/matheusluciano99/conta-bancaria-api
 
 ## Stack
 - Java 24
-- Spring Boot 3.5.5 (Web)
+- Spring Boot 3.5.5
+- Spring Data JPA
+- H2 Database (in-memory)
+- MySQL Connector (opcional)
 - jBCrypt (hash de senha)
+- Springdoc OpenAPI (Swagger)
 - Maven Wrapper (`./mvnw`)
+- Docker
 
 ## Rodando o projeto
+
+### Opção 1: Localmente com Maven
 Pré-requisitos: Java 24 (ou um JDK compatível), bash.
 
 ```bash
@@ -25,12 +42,40 @@ just compile
 just run
 ```
 
+### Opção 2: Docker
+
+```bash
+# 1. Build do JAR
+./mvnw clean package -DskipTests
+
+# 2. Build da imagem Docker
+docker build -t conta-bancaria-api .
+
+# 3. Executar o container
+docker run -p 8080:8080 conta-bancaria-api
+```
+
+Ou use a imagem do Docker Hub:
+```bash
+docker pull matheusluciano99/conta-bancaria-api:latest
+docker run -p 8080:8080 matheusluciano99/conta-bancaria-api:latest
+```
+
+### Opção 3: Deploy no Docker Hub
+
+Para fazer deploy da sua própria versão:
+```bash
+./deploy-dockerhub.sh
+```
+
 ## Autenticação
 - Registre um usuário e faça login para obter um token.
 - Envie o token nos endpoints protegidos via header `token` (sem Bearer).
 - GETs são abertos; POST/PUT/DELETE exigem `token`.
 
 ## Fluxo rápido (Postman ou cURL)
+
+**Nota:** Substitua `http://localhost:8080` por `https://conta-bancaria-api.onrender.com` para testar em produção.
 
 1) Registrar usuário
 ```bash
@@ -139,10 +184,25 @@ pm.environment.set('token', (tok||'').replace(/"/g,'').trim());
 - `GET /cartoes/{numeroCartao}/ativo` – verifica se está ativo
 - `DELETE /cartoes/{numeroCartao}` – cancela (header `token`)
 
+## Recursos Adicionais
+
+### Swagger UI
+Documentação interativa da API disponível em:
+- Local: http://localhost:8080/swagger-ui/index.html
+- Produção: https://conta-bancaria-api.onrender.com/swagger-ui/index.html
+
+### H2 Console
+Console do banco de dados H2 (desenvolvimento):
+- URL: http://localhost:8080/h2-console
+- JDBC URL: `jdbc:h2:mem:testdb`
+- Username: `sa`
+- Password: (vazio)
+
 ## Observações
-- Armazenamento em memória (HashMap) – dados se perdem ao reiniciar.
+- Banco de dados H2 em memória – dados se perdem ao reiniciar.
 - Senhas são armazenadas com hash BCrypt.
 - O token é um UUID mantido em memória e verificado por `UsuarioService.validarToken`.
+- A aplicação usa JPA/Hibernate com `ddl-auto=update`.
 
 ## Testes
 ```bash
